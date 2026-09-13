@@ -53,4 +53,18 @@ app.MapPut("/api/todos/{id}", (int id, TodoPutDto dto) =>
     }
     
 });
+app.MapDelete("/api/todos/{id}", (int id) =>
+{
+    try
+    {
+        var todo = todos.FirstOrDefault(t => t.ID == id);
+        if (todo is null) return Results.NotFound();
+        todos.Remove(todo);
+        return Results.NoContent();
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(ex.Message);
+    }
+});
 app.Run();
